@@ -2,7 +2,7 @@
 name = "mlops-project"
 version = "0.1.0"
 description = ""
-authors = ["Your Name <you@example.com>"]
+authors = ["Jeannette Kalaeva <jeannette.kalaeva@yandex.ru>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
