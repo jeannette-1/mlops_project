@@ -1,9 +1,3 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[1]:
-
-
 import joblib
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import GridSearchCV
