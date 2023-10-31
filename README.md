@@ -1,3 +1,3 @@
 # mlops_project
 
-## Test project for MLOps course
+Test project for MLOps course
