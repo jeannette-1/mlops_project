@@ -1,19 +1,35 @@
-import joblib
+import pickle
+import sys
+from pathlib import Path
+
+import hydra
+import mlflow
 import pandas as pd
-from sklearn.metrics import accuracy_score, f1_score
 
-def load_model():
-    return joblib.load('model.joblib')
+from mlops_project.mlops_project import CatBoostModel
+from mlops_project.mlops_project import load_dataset
 
-def predict(model, X_test):
-    return model.predict(X_test)
+hydra.main(config_path="../configs", config_name="config", version_base=False)
 
-def evaluate(y_true, y_pred):
-    accuracy = accuracy_score(y_true, y_pred)
-    f1 = f1_score(y_true, y_pred, average=None)
-    return accuracy, f1
+def infer(config):
+    model_name = config["model"]["name"]
+    mlflow_models_path = config["common"]["mlflow_models_path"]
+    inference_model = config["model"].get("inference_model")
+    
+    x_train, x_test, y_train, y_test = load_dataset(config["common"]["processed_data_path"])
 
-def save_predictions(y_pred):
-    df = pd.DataFrame({'prediction': y_pred})
-    df.to_csv('predictions.csv', index=False)
+        model = CatBoostModel(
+            name=model_name,
+            model=mlflow.catboost.load_model(inference_model or f"{mlflow_models_path}{model_name}/"),
+        )
+
+    
+    y_pred, metrics = model.evaluate(x_test, y_test)
+
+    print(pd.DataFrame(metrics))
+
+
+if __name__ == "__main__":
+    infer()
+
 
