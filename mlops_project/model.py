@@ -9,11 +9,11 @@ class CatBoostModel:
         self.model = model
         self.params = params
 
-    def train(self, X_train: pd.DataFrame, y_train: pd.DataFrame):
-        self.model.fit(X_train, y_train)
+    def train(self, x_train: pd.DataFrame, y_train: pd.DataFrame):
+        self.model.fit(x_train, y_train)
 
-    def evaluate(self, X_test: pd.DataFrame, y_test: pd.DataFrame):
-        y_pred = self.model.predict(X_test)
+    def evaluate(self, x_test: pd.DataFrame, y_test: pd.DataFrame):
+        y_pred = self.model.predict(x_test)
         mse = mean_squared_error(y_test, y_pred)
         r2 = r2_score(y_test, y_pred)
         metrics = pd.DataFrame({
